@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
+        body {
+            width: 980px;
+            height: 100%;
+        }
+        
+        .main {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .elements {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            background: green;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        .colon {
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            background: blue;
+            border: 5px solid darkblue;
+            z-index: 0;
+        }
+
+    </style>
+</head>
+<div class="main"></div>
+
+<body>
+
+</body>
+
+</html>
+<script src="../jquery-1.7.2.js"></script>
+<script>
+    $(function() {
+        var p = [];
+        p[0] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[1] = [
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1]
+        ];
+        p[2] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[3] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[4] = [
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1]
+        ];
+        p[5] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[6] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[7] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1]
+        ];
+        p[8] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+        p[9] = [
+            [1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1]
+        ];
+
+        var element = []; //记录生成的element
+        var w_h = $(window).height(); //屏幕高度
+        var w_w = Math.max($(window).width(), $("body").width());
+        //活动区域宽度，屏幕宽度小于body宽度总不能让右边的element直接消失
+        var g = 0.8 * w_h; //模仿重力的加速度，系数自定
+        var next = {
+            x: 0,
+            y: 0
+        }
+        //预留，处理主计时器变化时下一步位置的判断，如果碰撞反弹检测则要按照bounce函数的内容改变，否则水平方向匀速，垂直方向做竖直上抛运动
+        var k; //***出活动区域检测和element运动时的计数用变量***
+        //bounce函数处理碰撞底边的反弹
+        var dx = (w_w - 780) / 2; //最左边数字距离窗口左边框距离
+        var dy = w_h / 2 - 72.5;
+
+        function bounce(t) {
+            var t1 = (Math.sqrt(2 * (w_h - 12 - element[k].y) * g + Math.pow(element[k].vy, 2)) - element[k].vy) / g;
+            console.log(t1);
+            var t2 = t - t1;
+            next.y = -0.8 * element[k].vy * t2 + g * Math.pow(t2, 2) / 2 + w_h - 12;
+            element[k].vy = -0.8 * element[k].vy + g * t2;
+
+        }
+        //clear_time_out函数在数字变化时根据group属性确认是哪个数字该散开，解除其稳定状态
+        function clear_time_out(num) {
+            for (var i = 0; i < element.length; i++) {
+                if (element[i].group == num) {
+                    element[i].count = 0;
+                }
+            }
+        }
+        //newtime函数在时间变动时和初始化时，可对六个位置的数字分别添加新的element构成数字图案
+        function newtime(s, num) {
+
+            dx = (w_w - 780) / 2; //初始化
+            switch (num) {
+                case 0:
+                    break;
+                case 1:
+                    dx += 120;
+                    break;
+                case 2:
+                    dx += 280;
+                    break;
+                case 3:
+                    dx += 400;
+                    break;
+                case 4:
+                    dx += 560;
+                    break;
+                case 5:
+                    dx += 680;
+                    break;
+                default:
+                    break;
+            }
+
+            for (var i = 0; i < 9; i++) {
+                for (var j = 0; j < 7; j++) {
+                    if (p[s][i][j] == 1) {
+                        var pos = {
+                            x: j * 15 + dx,
+                            y: i * 15 + dy,
+                            vx: Math.floor((Math.random() * 0.10 + 0.2) * w_h),
+                            vy: -Math.floor((Math.random() * 0.20 + 0.3) * w_h),
+                            count: 1,
+                            group: num
+                        }
+                        if (Math.round(Math.random()) == 0) {
+                            pos.vx = -pos.vx
+                        }
+                        element.push(pos);
+                    }
+                }
+            }
+
+        }
+        //六个数字初始化
+        var date, h, m, s;
+        $("body").append('<div class="colon" style="left:' + (dx + 240) + 'px;top:' + (w_h / 2 - 30) + 'px;"></div>');
+        $("body").append('<div class="colon" style="left:' + (dx + 240) + 'px;top:' + (w_h / 2 + 10) + 'px;"></div>');
+        $("body").append('<div class="colon" style="left:' + (dx + 520) + 'px;top:' + (w_h / 2 - 30) + 'px;"></div>');
+        $("body").append('<div class="colon" style="left:' + (dx + 520) + 'px;top:' + (w_h / 2 + 10) + 'px;"></div>');
+        date = new Date();
+        h = date.getHours();
+        m = date.getMinutes();
+        s = date.getSeconds();
+        var h_a = Math.floor(h / 10);
+        var h_b = h - h_a * 10;
+        var m_a = Math.floor(m / 10);
+        var m_b = m - m_a * 10;
+        var s_a = Math.floor(s / 10);
+        var s_b = s - s_a * 10;
+        newtime(Math.floor(h / 10), 0);
+        newtime(h - Math.floor(h / 10) * 10, 1);
+        newtime(Math.floor(m / 10), 2);
+        newtime(m - Math.floor(m / 10) * 10, 3);
+        newtime(Math.floor(s / 10), 4);
+        newtime(s - Math.floor(s / 10) * 10, 5);
+
+        //主计时器
+        setInterval(function() {
+            $(".main").html("");
+            for (var i = 0; i < element.length; i++) {
+                $(".main").append('<div class="elements" style="left:' + element[i].x + 'px;top:' + element[i].y + 'px;"></div>');
+            }
+            date = new Date();
+            var s1 = date.getSeconds();
+            //先给对应的group原来存在的element清除count=1的固定状态，count=0时可以被主计时器控制自由斜抛
+            if (s1 !== s) {
+                s_a = Math.floor(s1 / 10);
+                s_b = s1 - s_a * 10;
+                clear_time_out(5);
+                newtime(s_b, 5);
+                if (s_b == 0) {
+                    clear_time_out(4);
+                    newtime(s_a, 4);
+                    if (s_a == 0) {
+                        var m1 = date.getMinutes();
+                        m_a = Math.floor(m1 / 10);
+                        m_b = m1 - m_a * 10;
+                        clear_time_out(3);
+                        newtime(m_b, 3);
+                        if (m_b == 0) {
+                            clear_time_out(2);
+                            newtime(m_a, 2);
+                            if (m_a == 0) {
+                                var h1 = date.getHours();
+                                h_a = Math.floor(h1 / 10);
+                                h_b = h1 - h_a * 10;
+                                clear_time_out(1);
+                                newtime(h_b, 1);
+                                if (h_b == 0) {
+                                    clear_time_out(0);
+                                    newtime(h_a, 1);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                s = s1;
+            }
+            for (k = element.length - 1; k >= 0; k--) {
+                if (element[k].count == 0) {
+                    $(".elements").eq(k).css({
+                        "background": "lightblue",
+                        "border": "4px solid purple ",
+                        "width": 4,
+                        "height": 4
+                    });
+                    next = {
+                        x: element[k].x + element[k].vx / 24,
+                        y: element[k].y + element[k].vy / 24 + g / 1152
+                    }
+                    if (next.x <= 0 || next.x > w_w - 12) {
+                        element.splice(k, 1);
+                    } else {
+                        if (next.y > w_h - 12) {
+                            bounce(1 / 24);
+                        } else {
+                            element[k].vy += g / 24
+                        }
+
+                        element[k].x = next.x;
+                        element[k].y = next.y;
+                    }
+                }
+
+
+            }
+
+        }, 1000 / 24);
+
+    })
+
+</script>
