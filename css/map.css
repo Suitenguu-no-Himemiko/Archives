@@ -1,0 +1,96 @@
+.ppt {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.picAll {
+    height: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+}
+
+.pic {
+    width: 200px;
+    height: 200px;
+    background: blue;
+    color: white;
+    float: left;
+    font-size:50px;
+    font-weight: bold;
+}
+
+.left {
+    width: 20px;
+    height: 20px;
+    font-weight: bolder;
+    background: black;
+    text-align: center;
+    color: #FFF;
+    position: absolute;
+    top: 90px;
+    left: 0;
+}
+
+.right {
+    width: 20px;
+    height: 20px;
+    font-weight: bolder;
+    background: black;
+    text-align: center;
+    color: #FFF;
+    position: absolute;
+    top: 90px;
+    right: 0;
+}
+.up {
+    width: 20px;
+    height: 20px;
+    font-weight: bolder;
+    background: black;
+    text-align: center;
+    color: #FFF;
+    position: absolute;
+    top: 0;
+    right: 90px;
+}
+.down {
+    width: 20px;
+    height: 20px;
+    font-weight: bolder;
+    background: black;
+    text-align: center;
+    color: #FFF;
+    position: absolute;
+    bottom:0;
+    right: 90px;
+}
+.cs {
+    height: auto;
+    position: relative;
+    background: black;
+    width: auto;
+    margin-top: 20px;
+}
+
+.c {
+    height: 14px;
+    width: 14px;
+    border-radius: 7px;
+    background: white;
+    float: left;
+}
+.now{
+    height: 14px;
+    width: 14px;
+    border-radius:7px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+.h {
+    background: yellow;
+}

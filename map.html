@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>mapper version 0.317</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link rel="stylesheet" href="css/map.css">
+</head>
+
+<body>
+    <div class="ppt">
+        <div class="picAll">
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+            <div class="pic"></div>
+        </div>
+        <div class="left">L</div>
+        <div class="right">R</div>
+        <div class="up">U</div>
+        <div class="down">D</div>
+    </div>
+    <div class="cs">
+        <div class="now"></div>
+    </div>
+</body>
+
+</html>
+<script src="js/jquery-1.7.2.js"></script>
+<script>
+    //基础的幻灯轮播功能的拓展
+    $(function() {
+        //pic，地图每个区域的具体信息（加图片，数据等效果）
+        //cs-小地图父标签，c-小地图的每个区域，绿色为走过的区域，白色未走过
+        //now-当前位置光标，全局变量blink判断now是否闪烁，1为亮0为灭
+        //left,right,up,down-四个方向移动按钮
+        //初始化，i-行坐标，j-列坐标，nums-元素数，tnums-行列数，blink状态量默认为1
+        var i = 0;
+        var j = 0;
+        var blink = 1;
+        var nums = ($(".pic").length);
+        var tnums = Math.sqrt(nums);
+
+        $(".picAll").css({
+            "height": tnums * 200,
+            "width": tnums * 200,
+        });
+        $(".cs").css({
+            "height": tnums * 14,
+            "width": tnums * 14,
+            "left": 100 - tnums * 7
+        });
+        //添加小地图的子元素
+        for (var k = 0; k < tnums; k++) {
+            var kplus = k + 1;
+            for (var l = 0; l < tnums; l++) {
+                var lplus = l + 1;
+                $(".cs").append('<div class="c"></div>');
+                $(".picAll").append('<div class="pic"></div>');
+                $(".pic").eq(k * 4 + l).html("Area" + kplus + "," + lplus);
+            }
+        }
+        //当前位置闪起来，并且当前位置小地图设置为“已经过”
+        $(".now").addClass("h");
+        $(".c").eq(0).css({
+            "background": "green"
+        });
+
+        setInterval(function() {
+            if (blink == 1) {
+                $(".now").removeClass("h");
+                blink = 0;
+            } else {
+                $(".now").addClass("h");
+                blink = 1;
+            }
+        }, 300);
+        //左移动
+        $(".left").click(function() {
+            if (i > 0) {
+                i--;
+            }
+            $(".picAll").stop(true).animate({
+                "left": -i * 200 + "px"
+            });
+            $(".c").eq(i + j * 4).css({
+                "background": "green"
+            });
+            $(".now").css({
+                "left": i * 14,
+                "top": j * 14
+            });
+        })
+        //右移动
+        $(".right").click(function() {
+            if (i < tnums - 1) {
+                i++;
+            }
+            $(".picAll").stop(true).animate({
+                "left": -i * 200 + "px"
+            });
+            $(".c").eq(i + j * 4).css({
+                "background": "green"
+            });
+            $(".now").css({
+                "left": i * 14,
+                "top": j * 14
+            });
+        })
+
+        //上移动
+        $(".up").click(function() {
+            if (j > 0) {
+                j--;
+            }
+            $(".picAll").stop(true).animate({
+                "top": -j * 200 + "px"
+            });
+            $(".c").eq(i + j * 4).css({
+                "background": "green"
+            });
+            $(".now").css({
+                "left": i * 14,
+                "top": j * 14
+            });
+        })
+        //下移动
+        $(".down").click(function() {
+            if (j < tnums - 1) {
+                j++;
+            }
+            $(".picAll").stop(true).animate({
+                "top": -j * 200 + "px"
+            });
+            $(".c").eq(i + j * 4).css({
+                "background": "green"
+            });
+            $(".now").css({
+                "left": i * 14,
+                "top": j * 14
+            });
+        })
+        $(window).keydown(function(e) {
+
+            var key = e.keyCode;
+            switch (key) {
+                case 37:
+                    if (i > 0) {
+                        i--;
+                    }
+                    $(".picAll").stop(true).animate({
+                        "left": -i * 200 + "px"
+                    });
+                    $(".c").eq(i + j * 4).css({
+                        "background": "green"
+                    });
+                    $(".now").css({
+                        "left": i * 14,
+                        "top": j * 14
+                    });
+                    break;
+                case 38:
+                    if (j > 0) {
+                        j--;
+                    }
+                    $(".picAll").stop(true).animate({
+                        "top": -j * 200 + "px"
+                    });
+                    $(".c").eq(i + j * 4).css({
+                        "background": "green"
+                    });
+                    $(".now").css({
+                        "left": i * 14,
+                        "top": j * 14
+                    });
+                    break;
+                case 39:
+                    if (i < tnums - 1) {
+                        i++;
+                    }
+                    $(".picAll").stop(true).animate({
+                        "left": -i * 200 + "px"
+                    });
+                    $(".c").eq(i + j * 4).css({
+                        "background": "green"
+                    });
+                    $(".now").css({
+                        "left": i * 14,
+                        "top": j * 14
+                    });
+                    break;
+                case 40:
+                    if (j < tnums - 1) {
+                        j++;
+                    }
+                    $(".picAll").stop(true).animate({
+                        "top": -j * 200 + "px"
+                    });
+                    $(".c").eq(i + j * 4).css({
+                        "background": "green"
+                    });
+                    $(".now").css({
+                        "left": i * 14,
+                        "top": j * 14
+                    });
+                    break;
+            }
+        })
+    })
+
+</script>

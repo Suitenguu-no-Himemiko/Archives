@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Collision determination-Circle</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            position: relative;
+        }
+        
+        .snake {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            background: green;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        
+        .food {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            background: orange;
+            position: fixed;
+            left: 300px;
+            top: 400px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="snake"></div>
+    <div class="food"></div>
+</body>
+
+</html>
+<script src="js/jquery-1.7.2.js"></script>
+<script>
+    $(function() {
+        function touch(x1, y1, r1, x2, y2, r2) {
+            if ((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) < (r1 + r2) * (r1 + r2)) {
+                console.log("yes");
+            } else {
+                console.log("no");
+            }
+        }
+
+        $(window).keydown(function(e) {
+            var x1, y1;
+            var space = 10;
+            var key = e.keyCode;
+            var x2, y2, d1, d2;
+            var r1, r2;
+            d1 = $(".snake").width();
+            d2 = $(".food").width();
+            x1 = $(".snake").offset().left;
+            x2 = $(".food").offset().left;
+            y1 = $(".snake").offset().top;
+            y2 = $(".food").offset().top;
+            r1 = d1 / 2;
+            r2 = d2 / 2;
+            switch (key) {
+                case 38:
+                    if (y1 - space >= 0) {
+                        y1 -= space;
+                    }
+                    $(".snake").css({
+                        "top": y1
+                    });
+                    touch(x1 + r1, y1 + r1, r1, x2 + r2, y2 + r2, r2);
+                    break;
+                case 39:
+                    if (x1 + d1 + space <= $(window).width()) {
+                        x1 += space;
+                    }
+                    $(".snake").css({
+                        "left": x1
+                    });
+                    touch(x1 + r1, y1 + r1, r1, x2 + r2, y2 + r2, r2);
+                    break;
+                case 40:
+                    if (y1 + d1 + space <= $(window).height()) {
+                        y1 += space;
+                    }
+                    $(".snake").css({
+                        "top": y1
+                    });
+                    touch(x1 + r1, y1 + r1, r1, x2 + r2, y2 + r2, r2);
+                    break;
+                case 37:
+                    if (x1 - space >= 0) {
+                        x1 -= space;
+                    }
+                    $(".snake").css({
+                        "left": x1
+                    });
+                    touch(x1 + r1, y1 + r1, r1, x2 + r2, y2 + r2, r2);
+                    break;
+                default:
+                    break;
+            }
+        })
+    })
+
+</script>

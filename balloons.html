@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            background: lightblue;
+        }
+        
+        .balloon {
+            width: 100px;
+            height: 255px;
+            background: url(img/balloon/balloon.png);
+            position: fixed;
+            text-align: center;
+            line-height: 120px;
+            font-size: 40px;
+            color: white;
+        }
+        
+        .main {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        
+        .score {
+            position: fixed;
+            z-index: 9999;
+            right: 0;
+            top: 0;
+            height: 20px;
+            line-height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="score"></div>
+    <div class="main"></div>
+</body>
+
+</html>
+<script src="js/jquery-1.7.2.js"></script>
+<script>
+    $(function() {
+        var balloon = [];
+        var clk = {
+            x: 0,
+            y: 0
+        }
+        var j;
+        var score = 0;
+        var rate = 1;
+        var newballoon;
+        var speedn = 5;
+
+        function Collision(x1, y1, w1, h1, x2, y2, w2, h2) {
+            if (!(x1 + w1 <= x2 || y1 + h1 <= y2 || x1 >= x2 + w2 || y1 >= y2 + h2)) {
+
+                switch (balloon[j].type) {
+                    case 5:
+                        clearInterval(newballoon);
+                        for (var k = 0; k < balloon.length; k++) {
+                            balloon[k].v = 0;
+                        }
+                        setTimeout(function() {
+                            for (var k = 0; k < balloon.length; k++) {
+                                balloon[k].v = speedn;
+                            };
+                            newballoon;
+                        }, 5000);
+                        break;
+                    case 6:
+                        speed = speedn * 2;
+                        for (var k = 0; k < balloon.length; k++) {
+                            balloon[k].v = speed;
+                        }
+                        setTimeout(function() {
+                            speed = speedn;
+                            for (var k = 0; k < balloon.length; k++) {
+                                balloon[k].v = speed;
+                            };
+
+                        }, 5000);
+                        break;
+                    case 7:
+                        speed = speedn / 2;
+                        for (var k = 0; k < balloon.length; k++) {
+                            balloon[k].v = speed;
+                        }
+                        setTimeout(function() {
+                            speed = speedn;
+                            for (var k = 0; k < balloon.length; k++) {
+                                balloon[k].v = speed;
+                            };
+
+                        }, 5000);
+                        break;
+                    case 8:
+                        rate = rate * 2;
+                        setTimeout(function() {
+                            rate = rate / 2;
+                        }, 5000)
+                        break;
+                    default:
+                        break;
+                }
+                score += rate;
+                balloon.splice(j, 1);
+                clk.x = 0;
+                clk.y = 0;
+            }
+        }
+
+
+        setInterval(function() {
+            $(".score").html("score:" + score + "rate:x" + rate);
+            $(".main").html("");
+            for (var i = 0; i < balloon.length; i++) {
+                balloon[i].y -= balloon[i].v;
+                $(".main").append('<div class = "balloon" style = "left:' + balloon[i].x + 'px;top:' + balloon[i].y + 'px;" > </div>');
+                switch (balloon[i].type) {
+                    case 5:
+                        $(".balloon").eq(i).text("stop");
+                        break;
+                    case 6:
+                        $(".balloon").eq(i).text("fast");
+                        break;
+                    case 7:
+                        $(".balloon").eq(i).text("slow");
+                        break;
+                    case 8:
+                        $(".balloon").eq(i).text("x2");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            for (j = 0; j < balloon.length; j++) {
+                if (balloon[j].y < -$(".balloon").height()) {
+                    balloon.splice(j, 1);
+                }
+            }
+        }, 1000 / 24);
+        var speed = speedn;
+        newballoon = setInterval(function() {
+            balloon.push({
+                x: Math.floor(Math.random() * ($(window).width() - 100)),
+                y: $(window).height(),
+                v: speed,
+                type: Math.floor(Math.random() * 8.5)
+            });
+        }, 1000);
+        $("body").on('mousedown', '.balloon', function(e) {
+            clk.x = e.pageX;
+            clk.y = e.pageY;
+            for (j = 0; j < balloon.length; j++) {
+                Collision(balloon[j].x, balloon[j].y, $(".balloon").width(), $(".balloon").height(), clk.x, clk.y, 0, 0);
+
+            }
+        });
+    })
+
+</script>

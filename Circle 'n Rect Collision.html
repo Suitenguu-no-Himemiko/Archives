@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Collision determination-Circle with Rectangle</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        .snake {
+            width: 30px;
+            height: 30px;
+            border-radius: 100%;
+            background: blue;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        
+        .food {
+            width: 200px;
+            height: 100px;
+            background: pink;
+            position: fixed;
+            left: 300px;
+            top: 400px;
+            opacity: 0.5;
+        }
+        
+        .btn {
+            float: right;
+            margin-top: 0;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="snake"></div>
+    <div class="food"></div>
+    <input type="button" class="btn" value="1px">
+    <input type="button" class="btn" value="10px">
+    <input type="button" class="btn" value="100px">
+</body>
+
+</html>
+<script src="js/jquery-1.7.2.js"></script>
+<script>
+    $(function() {
+
+        var x1, y1, x2, y2, d, w, h, r;
+        var space = 1;
+
+        $(".btn").click(function() {
+            var num = $(this).index() - 2;
+            console.log(num);
+            space = Math.pow(10, num);
+        })
+
+        d = $(".snake").width();
+        h = $(".food").height();
+        w = $(".food").width();
+        x1 = $(".snake").offset().left;
+        y1 = $(".snake").offset().top;
+        x2 = $(".food").offset().left;
+        y2 = $(".food").offset().top;
+        r = d / 2;
+
+        function collision(x1, y1, x2, y2) {
+            var dx = Math.max(Math.abs(x1 - x2) - w / 2, 0);
+            var dy = Math.max(Math.abs(y1 - y2) - h / 2, 0);
+            var u = dx * dx + dy * dy;
+            if (u <= r * r) {
+                console.log("yes");
+            } else {
+                console.log("no");
+            }
+        }
+
+        $(window).keydown(function(e) {
+
+            var key = e.keyCode;
+            switch (key) {
+                case 38:
+                    if (y1 - space >= 0) {
+                        y1 -= space;
+                    }
+                    $(".snake").css({
+                        "top": y1
+                    });
+                    collision(x1 + r, y1 + r, x2 + w / 2, y2 + h / 2);
+                    break;
+                case 39:
+                    if (x1 + d + space <= $(window).width()) {
+                        x1 += space;
+                    }
+                    $(".snake").css({
+                        "left": x1
+                    });
+                    collision(x1 + r, y1 + r, x2 + w / 2, y2 + h / 2);
+                    break;
+                case 40:
+                    if (y1 + d + space <= $(window).height()) {
+                        y1 += space;
+                    }
+                    $(".snake").css({
+                        "top": y1
+                    });
+                    collision(x1 + r, y1 + r, x2 + w / 2, y2 + h / 2);
+                    break;
+                case 37:
+                    if (x1 - space >= 0) {
+                        x1 -= space;
+                    }
+                    $(".snake").css({
+                        "left": x1
+                    });
+                    collision(x1 + r, y1 + r, x2 + w / 2, y2 + h / 2);
+                    break;
+                default:
+                    break;
+            }
+        })
+    })
+
+</script>

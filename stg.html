@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+            background-image: url(img/stg/bg.jpg);
+            background-size: cover;
+            background-repeat: repeat-y;
+        }
+        /*敌机*/
+        
+        .screen {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .enemy {
+            width: 333px;
+            height: 220px;
+            background-image: url(img/stg/ketlastboss.gif);
+            background-size: cover;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 0;
+            opacity: 0.7;
+            border-radius: 50px;
+        }
+        /*自机*/
+        
+        .plane {
+            background: url(img/stg/plane.png);
+            width: 166px;
+            height: 132px;
+            background-size: cover;
+            position: fixed;
+            left: 50%;
+            margin-left: -83px;
+            bottom: 0;
+            z-index: 1;
+        }
+        /*子弹*/
+        
+        .bullet {
+            width: 8px;
+            height: 38px;
+            background: black;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border: 3px solid yellow;
+            border-bottom: none;
+            position: fixed;
+        }
+        /*对面血量*/
+        
+        .remainhp {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 1;
+            color: white;
+            font-size: 30px;
+        }
+        /*重新开始*/
+        
+        .restart {
+            background: brown;
+            color: white;
+            position: fixed;
+            top: 50px;
+            right: 0;
+            z-index: 1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="screen">
+        <div class="plane"></div>
+    </div>
+    <span class="remainhp"></span>
+    <input type="button" value="RESTART" class="restart">
+    <audio src="audio/stg/noremorse.mp3" id="bgs" preload="preload" loop="loop">
+    </audio>
+</body>
+
+</html>
+<script src="js/jquery-1.7.2.js"></script>
+<script>
+    $(function() {
+        //***敌机
+        var dg = {
+            dx: 0,
+            dy: 0,
+            dv: 3720
+        }
+        //***子弹
+        var buls = [];
+        //***自机
+        var cn = {
+            cx: $(".plane").offset().left,
+            cy: $(".plane").offset().top,
+            cv: 30,
+            w: $(".plane").width()
+        }
+        //***碰撞检测
+        function Collision(x1, y1, w1, h1, x2, y2, w2, h2) {
+            if (!(x1 + w1 <= x2 || y1 + h1 <= y2 || x1 >= x2 + w2 || y1 >= y2 + h2)) {
+                //console.log("hit");
+
+
+                if (EnemyInvincible == false) {
+                    if (enemylife - firepower <= 0) {
+                        $(".remainhp").html("Clear!");
+                        $(".enemy").fadeOut();
+                        $("body .enemy").remove();
+                        clearInterval(set);
+                    } else {
+                        enemylife -= firepower;
+                        $(".remainhp").html("HP" + enemylife);
+                    }
+
+                }
+                buls.splice(j, 1);
+            }
+        }
+        //***敌机入场函数EnemyIn,敌机变身阶段gif载入
+        function EnemyIn() {
+            dg.dx = Math.floor(Math.random() * ($(window).width() - 333));
+            dg.dy = Math.floor(Math.random() * ($(window).height() - 600));
+            var div = '<div class="enemy" style="left:' + dg.dx + 'px;top:' + dg.dy + 'px"></div>';
+            $("body").append(div);
+
+
+        }
+        //***敌机稳定阶段，贴图更换，随机移动正负150像素内距离
+        function MoveEnemy() {
+            $(".enemy").css("background-image", "url(img/stg/ketlastboss2.gif)");
+            var move = {
+                x: Math.floor(Math.random() * 300) - 150,
+                y: Math.floor(Math.random() * 300) - 150
+            }
+            if (dg.dx + move.x > $(window).width() - $(".enemy").width()) {
+                dg.dx = $(window).width() - $(".enemy").width();
+            } else {
+                if (dg.dx + move.x < 0) {
+                    dg.dx = 0
+                } else {
+                    dg.dx += move.x
+                }
+
+            }
+            if (dg.dy + move.y > $(window).height() - 500) {
+                dg.dy = $(window).height() - 500;
+            } else {
+                if (dg.dy + move.y < 0) {
+                    dg.dy = 0
+                } else {
+                    dg.dy += move.y
+                }
+            }
+            $(".enemy").animate({
+                "left": dg.dx,
+                "top": dg.dy
+            });
+        }
+        /***子弹发射函数shoot
+        function shoot() {
+            
+        }*/
+        //***按键基础设置
+        $(window).keydown(function(e) {
+            $(".plane").css({
+                "margin-left": 0
+            });
+
+            var key = e.keyCode;
+            switch (key) {
+                case 39:
+                    cn.cx += cn.cv;
+                    $(".plane").css({
+                        "left": cn.cx
+                    });
+                    break;
+                case 37:
+                    cn.cx -= cn.cv;
+                    $(".plane").css({
+                        "left": cn.cx
+                    });
+                    break;
+                case 32:
+                    buls.push({
+                        x: cn.cx + cn.w / 2 - 5,
+                        v: 45,
+                        y: cn.cy
+                    });
+                    break;
+            }
+        })
+        //***敌机完全过程
+
+        function EnemyAll() {
+            kill = false;
+            var AudioEvent = $("#bgs")[0];
+            AudioEvent.play();
+            EnemyInvincible = true;
+            set = setInterval(function() {
+                if (start == 0) {
+                    EnemyIn();
+                    start = 1;
+                } else {
+                    EnemyInvincible = false;
+                    MoveEnemy();
+                }
+            }, dg.dv);
+        }
+        //***敌机重置
+
+
+        var EnemyInvincible; //***入场无敌判定
+        var enemylife = 5000; //***敌机生命
+        var firepower = 20; //***机体火力
+        var timer = 0; //***背景滚动
+        var start = 0; //***start判断敌方是入场阶段还是稳定阶段,背景变换
+        var set; //***敌机移动计时器
+        var kill = false; //***是否击破敌机
+        var j;
+        var length;
+        $(".restart").click(function() {
+            clearInterval(set);
+            $("body .enemy").remove();
+            start = 0;
+            enemylife = 5000;
+            $(".remainhp").html("HP" + enemylife);
+            EnemyAll();
+        })
+        //***主程序-元素重绘及定义位置
+        $(".remainhp").html("HP" + enemylife);
+        setInterval(function() {
+            $(".screen").html("");
+            $(".screen").append('<div class = "plane" style = "left:' + cn.cx + 'px;top:' + cn.cy + 'px;margin-left:0;" > </div>');
+            for (var i = 0; i < buls.length; i++) {
+                buls[i].y -= buls[i].v;
+                $(".screen").append('<div class = "bullet" style = "left:' + buls[i].x + 'px;top:' + buls[i].y + 'px;" > </div>');
+            }
+            //***处理击中敌机时的子弹序列减小
+            for (j = buls.length - 1; j >= 0; j--) {
+                Collision(buls[j].x, buls[j].y, $(".bullet").width(), $(".bullet").height(), dg.dx, dg.dy, $(".enemy").width(), $(".enemy").height());
+            }
+            //***处理子弹出屏幕时的子弹序列减小
+            for (j = 0; j < buls.length; j++) {
+                if (buls[j].y < -$(".bullet").height()) {
+                    buls.splice(j, 1);
+                }
+            }
+
+            timer += 1;
+            $("body").css("background-position-y", timer);
+            console.log(buls);
+        }, 1000 / 24);
+
+        //***延时入场
+        setTimeout(function() {
+            EnemyAll();
+        }, 5000);
+
+    })
+
+</script>
