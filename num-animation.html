@@ -161,7 +161,7 @@
 
         var element = []; //记录生成的element
         var w_h = $(window).height(); //屏幕高度
-        var w_w = Math.max($(window).width(), $(".main").width());
+        var w_w = $(window).width();
         //活动区域宽度，屏幕宽度小于body宽度总不能让右边的element直接消失
         var g = 0.8 * w_h; //模仿重力的加速度，系数自定
         var next = {
@@ -172,7 +172,7 @@
 
         var k; //***出活动区域检测和element运动时的计数用变量***
 
-        var dx = (w_w - 780) / 2; //最左边数字距离窗口左边框距离
+        var dx = (w_w - 780) / 2; //最左边数字距离画布左边框距离
         var dy = w_h / 2 - 72.5;
 
         var can = document.getElementById("can");
@@ -181,7 +181,6 @@
         //bounce函数处理碰撞底边的反弹
         function bounce(t) {
             var t1 = (Math.sqrt(2 * (w_h - 12 - element[k].y) * g + Math.pow(element[k].vy, 2)) - element[k].vy) / g;
-            console.log(t1);
             var t2 = t - t1;
             next.y = -0.8 * element[k].vy * t2 + g * Math.pow(t2, 2) / 2 + w_h - 12;
             element[k].vy = -0.8 * element[k].vy + g * t2;
@@ -223,6 +222,7 @@
 
             for (var i = 0; i < 9; i++) {
                 for (var j = 0; j < 7; j++) {
+
                     if (p[s][i][j] == 1) {
                         var pos = {
                             x: j * 15 + dx,
@@ -239,7 +239,7 @@
                     }
                 }
             }
-
+            dx = (w_w - 780) / 2;
         }
 
         //六个数字初始化
@@ -265,13 +265,17 @@
         newtime(m - Math.floor(m / 10) * 10, 3);
         newtime(Math.floor(s / 10), 4);
         newtime(s - Math.floor(s / 10) * 10, 5);
-
+        $(window).on('resize', function() {
+            w_h = $(window).height();
+            w_w = $(window).width();
+        });
         //主计时器
         setInterval(function() {
             $("#can").attr({
-                "width": "980",
+                "width": w_w,
                 "height": w_h
             })
+
             date = new Date();
             var s1 = date.getSeconds();
 
